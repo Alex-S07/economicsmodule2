@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Economics for Engineers – Module 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f1a;
+    --surface: #161728;
+    --card: #1e2035;
+    --border: #2a2d4a;
+    --accent1: #7c6ef5;
+    --accent2: #f5a623;
+    --accent3: #4fc3a1;
+    --accent4: #f06e6e;
+    --accent5: #61c4f5;
+    --text: #e8e9f5;
+    --muted: #8a8caa;
+    --highlight: #2e3058;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(14,15,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent1);font-weight:700;}
+  .nav-links{display:flex;flex-wrap:wrap;gap:6px;}
+  .nav-links a{font-size:0.72rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);text-decoration:none;transition:all 0.2s;}
+  .nav-links a:hover{background:var(--accent1);color:#fff;border-color:var(--accent1);}
+
+  /* HERO */
+  .hero{text-align:center;padding:60px 20px 40px;background:radial-gradient(ellipse at 50% 0%, #2a1f6e55 0%, transparent 70%);}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:#fff;letter-spacing:-1px;margin-bottom:12px;}
+  .hero h1 span{color:var(--accent1);}
+  .hero p{color:var(--muted);font-size:1rem;max-width:560px;margin:0 auto 24px;}
+  .badge{display:inline-block;background:var(--accent1)22;border:1px solid var(--accent1)55;color:var(--accent1);padding:4px 14px;border-radius:20px;font-size:0.8rem;font-weight:600;letter-spacing:1px;}
+
+  /* PROGRESS */
+  .progress-bar{width:90%;max-width:700px;margin:20px auto;background:var(--surface);border-radius:8px;height:8px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent3));width:0%;transition:width 0.5s ease;border-radius:8px;}
+  .progress-label{text-align:center;font-size:0.78rem;color:var(--muted);margin-top:6px;}
+
+  /* SECTIONS */
+  main{max-width:960px;margin:0 auto;padding:0 16px 80px;}
+  .section{margin-bottom:50px;scroll-margin-top:70px;}
+  .section-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .section-num{font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent1);background:var(--accent1)18;border:1px solid var(--accent1)40;padding:3px 9px;border-radius:6px;}
+  .section-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;}
+  .section-header .icon{font-size:1.6rem;}
+
+  /* CARDS */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:16px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;transition:transform 0.2s,box-shadow 0.2s;cursor:default;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px #0005;}
+  .card h3{font-size:0.95rem;font-weight:600;color:var(--accent2);margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+  .card p,.card li{font-size:0.88rem;color:var(--muted);line-height:1.6;}
+  .card ul{padding-left:16px;}
+  .card li{margin-bottom:3px;}
+
+  /* ACCENT CARDS */
+  .card.a1{border-color:var(--accent1)40;}  .card.a1 h3{color:var(--accent1);}
+  .card.a2{border-color:var(--accent2)40;}  .card.a2 h3{color:var(--accent2);}
+  .card.a3{border-color:var(--accent3)40;}  .card.a3 h3{color:var(--accent3);}
+  .card.a4{border-color:var(--accent4)40;}  .card.a4 h3{color:var(--accent4);}
+  .card.a5{border-color:var(--accent5)40;}  .card.a5 h3{color:var(--accent5);}
+
+  /* FULL WIDTH CARD */
+  .card-full{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px;}
+  .card-full h3{font-size:1rem;font-weight:600;color:var(--accent3);margin-bottom:10px;}
+
+  /* CALLOUT */
+  .callout{background:var(--accent1)12;border-left:4px solid var(--accent1);border-radius:0 10px 10px 0;padding:14px 18px;margin:14px 0;font-size:0.9rem;}
+  .callout.green{background:var(--accent3)12;border-color:var(--accent3);}
+  .callout.orange{background:var(--accent2)12;border-color:var(--accent2);}
+  .callout.red{background:var(--accent4)12;border-color:var(--accent4);}
+  .callout strong{display:block;margin-bottom:4px;font-size:0.85rem;letter-spacing:0.5px;text-transform:uppercase;}
+
+  /* TABLE */
+  .table-wrap{overflow-x:auto;margin:14px 0;border-radius:10px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+  th{background:var(--highlight);color:var(--accent1);padding:10px 14px;text-align:left;font-weight:600;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.5px;}
+  td{padding:9px 14px;border-top:1px solid var(--border);color:var(--muted);}
+  tr:hover td{background:var(--highlight);}
+
+  /* FORMULA */
+  .formula{background:#0a0b14;border:1px solid var(--accent1)40;border-radius:10px;padding:14px 18px;font-family:'DM Mono',monospace;font-size:0.95rem;color:var(--accent3);margin:10px 0;text-align:center;letter-spacing:0.5px;}
+
+  /* STAGES */
+  .stages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0;}
+  .stage{border-radius:10px;padding:16px;text-align:center;}
+  .stage.s1{background:var(--accent3)15;border:1px solid var(--accent3)40;}
+  .stage.s2{background:var(--accent2)15;border:1px solid var(--accent2)40;}
+  .stage.s3{background:var(--accent4)15;border:1px solid var(--accent4)40;}
+  .stage h4{font-size:0.85rem;font-weight:700;margin-bottom:8px;}
+  .stage.s1 h4{color:var(--accent3);}
+  .stage.s2 h4{color:var(--accent2);}
+  .stage.s3 h4{color:var(--accent4);}
+  .stage p{font-size:0.78rem;color:var(--muted);}
+
+  /* QUIZ */
+  .quiz-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:30px;}
+  .quiz-box h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--accent2);margin-bottom:16px;}
+  .q-item{margin-bottom:18px;}
+  .q-item p{font-size:0.9rem;font-weight:500;color:var(--text);margin-bottom:8px;}
+  .q-options{display:flex;flex-wrap:wrap;gap:8px;}
+  .q-opt{background:var(--surface);border:1px solid var(--border);padding:7px 14px;border-radius:8px;font-size:0.83rem;cursor:pointer;transition:all 0.2s;color:var(--muted);}
+  .q-opt:hover{border-color:var(--accent1);color:var(--accent1);}
+  .q-opt.correct{background:var(--accent3)25;border-color:var(--accent3);color:var(--accent3);}
+  .q-opt.wrong{background:var(--accent4)25;border-color:var(--accent4);color:var(--accent4);}
+  .q-result{font-size:0.8rem;margin-top:6px;display:none;}
+
+  /* MEMORY TIPS */
+  .memory{background:var(--accent2)10;border:1px solid var(--accent2)35;border-radius:10px;padding:14px 18px;margin:12px 0;font-size:0.88rem;}
+  .memory strong{color:var(--accent2);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;}
+
+  /* MNEMONICS */
+  .mnemonic{background:var(--surface);border:1px dashed var(--accent5)50;border-radius:10px;padding:14px;font-size:0.88rem;margin:10px 0;}
+  .mnemonic span{color:var(--accent5);font-weight:700;font-family:'DM Mono',monospace;margin-right:4px;}
+
+  /* TAG */
+  .tag{display:inline-block;background:var(--accent1)18;color:var(--accent1);border-radius:5px;padding:2px 8px;font-size:0.75rem;font-family:'DM Mono',monospace;margin:2px;}
+
+  /* RESPONSIVE */
+  @media(max-width:600px){
+    .stages{grid-template-columns:1fr;}
+    .cards{grid-template-columns:1fr;}
+  }
+
+  /* SCROLL ANIMATION */
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease;}
+  .fade-in.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">📊 Eco for Engineers</div>
+  <div class="nav-links">
+    <a href="#basics">Basics</a>
+    <a href="#ppc">PPC</a>
+    <a href="#utility">Utility</a>
+    <a href="#demand">Demand</a>
+    <a href="#supply">Supply</a>
+    <a href="#elasticity">Elasticity</a>
+    <a href="#equilibrium">Equilibrium</a>
+    <a href="#production">Production</a>
+    <a href="#economies">Economies</a>
+    <a href="#cobb">Cobb-Douglas</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">MODULE 1 • COMPLETE STUDY GUIDE</div>
+  <h1>Economics for <span>Engineers</span></h1>
+  <p>Every topic from the PDF — simplified, organised, and exam-ready.</p>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">📖 Start reading to track progress</div>
+</div>
+
+<main>
+
+<!-- ============================================================ SECTION 1 -->
+<section class="section fade-in" id="basics">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="icon">🌍</span>
+    <h2>Basic Economics Concepts</h2>
+  </div>
+
+  <div class="callout orange">
+    <strong>Definition</strong>
+    Economics is the study of <em>scarcity, choice, and resource allocation</em> to satisfy unlimited human wants using limited resources.
+  </div>
+
+  <div class="cards">
+    <div class="card a1"><h3>🔴 Scarcity</h3><p>Resources are limited but human wants are unlimited. Root cause of all economic problems.</p></div>
+    <div class="card a2"><h3>🎯 Choice</h3><p>Because of scarcity, individuals must choose between alternatives.</p></div>
+    <div class="card a3"><h3>💡 Opportunity Cost</h3><p>The value of the <em>next best alternative forgone</em> when a choice is made.</p></div>
+    <div class="card a5"><h3>🏭 Factors of Production</h3><ul><li>Land – natural resources</li><li>Labour – human effort</li><li>Capital – man-made tools/machines</li><li>Entrepreneurship – risk-taking organisation</li></ul></div>
+    <div class="card a4"><h3>📈 Demand</h3><p>Quantity willing and able to buy at various prices (ceteris paribus).</p></div>
+    <div class="card a1"><h3>📦 Supply</h3><p>Quantity producers willing and able to offer at various prices.</p></div>
+    <div class="card a2"><h3>😊 Utility</h3><p>Satisfaction obtained from consuming a good or service.</p></div>
+    <div class="card a3"><h3>💰 Profit</h3><p>Excess of Revenue over Cost. Profit = Revenue − Cost.</p></div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔑 Types of Economics</h3>
+    <div class="cards" style="margin:0">
+      <div class="card a1"><h3>Microeconomics</h3><p>Studies individual units — consumers, firms, markets. Example: How a company prices its product.</p></div>
+      <div class="card a2"><h3>Macroeconomics</h3><p>Studies the whole economy — GDP, inflation, employment. Example: How inflation affects the country.</p></div>
+      <div class="card a3"><h3>Positive Economics</h3><p>Facts and cause-effect. Objective, testable. "Higher price → less demand."</p></div>
+      <div class="card a4"><h3>Normative Economics</h3><p>Value judgements, opinions. "Government should reduce taxes for the poor."</p></div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>⚙️ Basic Economic Problems (3 Questions Every Economy Must Answer)</h3>
+    <div class="stages">
+      <div class="stage s1"><h4>1. WHAT to produce?</h4><p>Which goods &amp; in what quantity? Resources are limited — more of one = less of another.</p></div>
+      <div class="stage s2"><h4>2. HOW to produce?</h4><p>Labour-intensive (more workers) vs Capital-intensive (more machines)?</p></div>
+      <div class="stage s3"><h4>3. FOR WHOM to produce?</h4><p>Who gets the output? Based on income, purchasing power, govt. policy.</p></div>
+    </div>
+    <div class="callout green"><strong>Electricity Example</strong>What: Power for industry or households? | How: Thermal, Solar, or Wind? | For Whom: Industries, Urban, or Rural?</div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 2 -->
+<section class="section fade-in" id="ppc">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="icon">📉</span>
+    <h2>Production Possibility Curve (PPC)</h2>
+  </div>
+  <div class="callout">
+    <strong>Definition</strong>
+    PPC (also PPF) shows all combinations of two goods an economy can produce with <em>given resources &amp; technology</em>, assuming full &amp; efficient use.
+  </div>
+  <div class="mnemonic"><span>4 Core Concepts:</span> <strong>S</strong>carcity • <strong>C</strong>hoice • <strong>O</strong>pportunity Cost • <strong>E</strong>fficiency → <em>"SCOE"</em></div>
+
+  <div class="cards">
+    <div class="card a1"><h3>📌 On the PPC</h3><p>Full utilisation of resources. Efficient production point.</p></div>
+    <div class="card a3"><h3>⬆️ Above/Beyond PPC</h3><p>Unattainable — beyond current productive capacity.</p></div>
+    <div class="card a4"><h3>⬇️ Below PPC</h3><p>Underutilisation of resources. Inefficient point.</p></div>
+    <div class="card a2"><h3>📐 Shape</h3><p>Downward sloping &amp; <em>concave</em>. Also called: Production Boundary / Transformation Curve.</p></div>
+  </div>
+
+  <div class="card-full">
+    <h3>📋 Assumptions of PPC</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>#</th><th>Assumption</th></tr>
+        <tr><td>1</td><td>Only two goods can be produced</td></tr>
+        <tr><td>2</td><td>Same resources used for both goods</td></tr>
+        <tr><td>3</td><td>Quantity &amp; quality of resources remain constant</td></tr>
+        <tr><td>4</td><td>Technology remains constant</td></tr>
+        <tr><td>5</td><td>Resources are fully employed</td></tr>
+        <tr><td>6</td><td>Efficient methods of production are used</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>↔️ Shifts in PPC</h3>
+    <div class="cards" style="margin:0">
+      <div class="card a3"><h3>➡️ Rightward Shift (Growth)</h3><ul><li>Discovery of new resources</li><li>Advancement in technology</li></ul></div>
+      <div class="card a4"><h3>⬅️ Leftward Shift (Decline)</h3><ul><li>Resources destroyed (earthquake, war)</li><li>Use of outdated technology</li></ul></div>
+    </div>
+  </div>
+  <div class="memory"><strong>💡 Quick Memory</strong>Opportunity cost = slope of PPC. Increasing OC → concave shape. Resources are NOT equally efficient for both goods.</div>
+</section>
+
+<!-- ============================================================ SECTION 3 -->
+<section class="section fade-in" id="utility">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="icon">😋</span>
+    <h2>Utility &amp; Law of Diminishing Marginal Utility</h2>
+  </div>
+  <div class="callout orange">
+    <strong>Definition</strong>
+    As a consumer consumes more and more units of a commodity, the marginal utility (extra satisfaction) from each successive unit keeps <em>decreasing</em>, other things constant.
+  </div>
+  <div class="mnemonic"><span>DMU =</span> Discovered by <strong>Hermann Heinrich Gossen</strong> in 1854. Also called <em>Gossen's First Law</em>.</div>
+
+  <div class="cards">
+    <div class="card a2"><h3>📊 Total Utility (TU)</h3><p>Total satisfaction from consuming ALL units combined.</p></div>
+    <div class="card a1"><h3>➕ Marginal Utility (MU)</h3><p>Extra satisfaction from consuming ONE more unit.<br><strong>MU = ΔTU</strong></p></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Units Consumed</th><th>Total Utility (TU)</th><th>Marginal Utility (MU)</th><th>Observation</th></tr>
+      <tr><td>1</td><td>10</td><td>10</td><td>MU positive, TU rising fast</td></tr>
+      <tr><td>2</td><td>18</td><td>8</td><td>MU falling, TU still rising</td></tr>
+      <tr><td>3</td><td>24</td><td>6</td><td>MU falling, TU still rising</td></tr>
+      <tr><td>4</td><td>28</td><td>4</td><td>MU falling, TU still rising</td></tr>
+      <tr><td>5</td><td>30</td><td>2</td><td>MU near zero</td></tr>
+      <tr><td>6</td><td>30</td><td>0</td><td>⭐ SATURATION POINT — TU max</td></tr>
+      <tr><td>7</td><td>28</td><td>-2</td><td>MU negative → TU falls</td></tr>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <strong>Key Relationships (MEMORISE)</strong>
+    MU falls → TU rises at decreasing rate | MU = 0 → TU is MAXIMUM | MU negative → TU declines
+  </div>
+
+  <div class="card-full">
+    <h3>📋 Assumptions</h3>
+    <div class="cards" style="margin:0">
+      <div class="card a1"><h3>1</h3><p>Consumer is rational</p></div>
+      <div class="card a2"><h3>2</h3><p>Units are homogeneous (same quality)</p></div>
+      <div class="card a3"><h3>3</h3><p>Tastes &amp; preferences are constant</p></div>
+      <div class="card a4"><h3>4</h3><p>Consumption is continuous</p></div>
+      <div class="card a5"><h3>5</h3><p>Income &amp; prices unchanged</p></div>
+    </div>
+  </div>
+  <div class="memory"><strong>💡 Importance</strong>Explains downward-sloping demand curve • basis of consumer equilibrium • helps price determination • useful in taxation • explains preference for variety</div>
+</section>
+
+<!-- ============================================================ SECTION 4 -->
+<section class="section fade-in" id="demand">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="icon">🛒</span>
+    <h2>Law of Demand</h2>
+  </div>
+
+  <div class="callout">
+    <strong>Definition</strong>
+    When price increases, quantity demanded decreases; when price decreases, quantity demanded increases — <em>ceteris paribus</em>. (Inverse relationship)
+  </div>
+  <div class="callout green"><strong>Demand = Want + Willingness to Pay + Ability to Pay</strong></div>
+
+  <div class="card-full">
+    <h3>📊 Determinants of Demand</h3>
+    <div class="cards" style="margin:0">
+      <div class="card a1"><h3>1. Price (P)</h3><p>P↑ → Q↓ | Exceptions: Giffen &amp; Veblen goods</p></div>
+      <div class="card a2"><h3>2. Income (Y)</h3><p>Normal goods: Y↑ → Q↑<br>Inferior goods: Y↑ → Q↓</p></div>
+      <div class="card a3"><h3>3. Tastes &amp; Preferences</h3><p>Favorable taste → Demand increases</p></div>
+      <div class="card a4"><h3>4. Related Goods</h3><p><b>Substitutes:</b> Price of tea↑ → demand for coffee↑<br><b>Complements:</b> Price of petrol↑ → demand for cars↓</p></div>
+      <div class="card a5"><h3>5. Consumer Expectations</h3><p>Expect price to rise → buy more now</p></div>
+      <div class="card a1"><h3>6. Number of Customers</h3><p>More buyers → higher demand</p></div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🚫 Exceptions to Law of Demand</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Exception</th><th>Explanation</th><th>Example</th></tr>
+        <tr><td>Giffen Goods</td><td>Inferior goods — when price rises, still bought more (can't afford better)</td><td>Coarse rice for very poor</td></tr>
+        <tr><td>Veblen Goods</td><td>Luxury goods — higher price = more prestige</td><td>Diamonds, luxury cars</td></tr>
+        <tr><td>Speculation</td><td>Expect price to rise further → buy more now</td><td>Gold, land, shares</td></tr>
+        <tr><td>Necessities</td><td>Demand barely falls even if price rises</td><td>Salt, medicines, basic food</td></tr>
+        <tr><td>Fear of Shortage</td><td>During crises, buy more at higher prices</td><td>Fuel, masks, essentials</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔄 Changes in Demand</h3>
+    <div class="stages">
+      <div class="stage s1"><h4>Expansion ↘</h4><p>Price FALLS → Movement DOWN the same demand curve. Quantity increases.</p></div>
+      <div class="stage s3"><h4>Contraction ↗</h4><p>Price RISES → Movement UP the same demand curve. Quantity decreases.</p></div>
+      <div class="stage s2"><h4>Shift Right / Left</h4><p>Non-price factors change → Entire curve shifts. Right = increase, Left = decrease.</p></div>
+    </div>
+    <div class="callout green"><strong>Rightward shift causes:</strong> Income↑ (normal), Population↑, Substitute price↑, Complementary price↓, Better taste, Advertisement↑, Future price expected to rise</div>
+    <div class="callout red"><strong>Leftward shift causes:</strong> Income↓, Population↓, Substitute price↓, Complementary price↑, Taste against product, Future price expected to fall</div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 5 -->
+<section class="section fade-in" id="supply">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <span class="icon">🏭</span>
+    <h2>Law of Supply</h2>
+  </div>
+
+  <div class="callout green">
+    <strong>Definition</strong>
+    Other things constant, quantity supplied <em>increases with price rise</em> and <em>decreases with price fall</em>. (Direct relationship — upward sloping supply curve)
+  </div>
+
+  <div class="cards">
+    <div class="card a3"><h3>📈 Reasons for Law of Supply</h3><ul><li>Profit motive – higher price = more profit</li><li>Entry of new firms attracted by profit</li><li>Efficient use of resources at higher prices</li></ul></div>
+    <div class="card a2"><h3>📋 Factors Affecting Supply</h3><ul><li>Price of commodity</li><li>Cost of production</li><li>Number of firms</li><li>Technology</li><li>Government policy (tax/subsidy)</li><li>Goals of the firm</li></ul></div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔄 Changes in Supply</h3>
+    <div class="stages">
+      <div class="stage s1"><h4>Expansion ↗</h4><p>Price↑ → Move UP supply curve. More supplied.</p></div>
+      <div class="stage s3"><h4>Contraction ↘</h4><p>Price↓ → Move DOWN supply curve. Less supplied.</p></div>
+      <div class="stage s2"><h4>Shift Right / Left</h4><p>Non-price factors change → curve shifts. Right = increase, Left = decrease.</p></div>
+    </div>
+    <div class="callout green"><strong>Rightward Shift:</strong> Cost↓, Technology improved, Subsidies, More firms</div>
+    <div class="callout red"><strong>Leftward Shift:</strong> Cost↑, Higher taxes, Natural calamity, Fewer firms</div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 6 -->
+<section class="section fade-in" id="elasticity">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <span class="icon">📏</span>
+    <h2>Elasticity of Demand &amp; Supply</h2>
+  </div>
+
+  <div class="callout">
+    <strong>Elasticity</strong> measures the <em>degree of responsiveness</em> of quantity to a change in a determinant.
+  </div>
+
+  <div class="formula">E<sub>d</sub> = (ΔQ / Q) ÷ (ΔP / P) = (ΔQ × P) / (ΔP × Q)</div>
+
+  <div class="card-full">
+    <h3>5 Types of Price Elasticity of Demand (PED)</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Type</th><th>Ed Value</th><th>Curve Shape</th><th>Example</th></tr>
+        <tr><td>Perfectly Elastic</td><td>Ed = ∞</td><td>Horizontal line</td><td>Imaginary / ideal</td></tr>
+        <tr><td>Perfectly Inelastic</td><td>Ed = 0</td><td>Vertical line</td><td>Life-saving medicines</td></tr>
+        <tr><td>Unitary Elastic</td><td>Ed = 1</td><td>Rectangular hyperbola</td><td>Proportionate change</td></tr>
+        <tr><td>Elastic (More)</td><td>Ed > 1</td><td>Flatter curve</td><td>Luxury goods</td></tr>
+        <tr><td>Inelastic (Less)</td><td>Ed &lt; 1</td><td>Steeper curve</td><td>Rice, wheat, salt, petrol</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="mnemonic"><span>Memory Aid:</span> "Perfect Elastic → ∞ (Hotel), Perfect Inelastic → 0 (Medicine), Unitary → 1 (Hyperbola), &gt;1 Luxury, &lt;1 Necessity"</div>
+
+  <div class="cards">
+    <div class="card a2"><h3>Income Elasticity</h3><p>Responsiveness of demand to change in consumer <em>income</em>.<br><br>Normal goods → Positive<br>Inferior goods → Negative<br>Necessities → Low positive</p></div>
+    <div class="card a5"><h3>Cross Elasticity</h3><p>Responsiveness of demand for one good to change in <em>price of another</em>.<br><br>Substitutes → Positive (tea &amp; coffee)<br>Complements → Negative (car &amp; petrol)</p></div>
+  </div>
+
+  <div class="card-full">
+    <h3>📏 Elasticity of Supply</h3>
+    <div class="formula">E<sub>s</sub> = (ΔQ / Q) ÷ (ΔP / P)</div>
+    <div class="table-wrap" style="margin:8px 0 0">
+      <table>
+        <tr><th>Type</th><th>Es Value</th><th>Curve</th><th>Example</th></tr>
+        <tr><td>Perfectly Inelastic</td><td>Es = 0</td><td>Vertical</td><td>Fresh fish — must sell today</td></tr>
+        <tr><td>Perfectly Elastic</td><td>Es = ∞</td><td>Horizontal</td><td>Ideal / theoretical</td></tr>
+        <tr><td>Unitary</td><td>Es = 1</td><td>Line through origin</td><td>Proportionate change</td></tr>
+        <tr><td>Relatively Elastic</td><td>Es > 1</td><td>Flatter</td><td>Electronics, furniture</td></tr>
+        <tr><td>Relatively Inelastic</td><td>Es &lt; 1</td><td>Steeper</td><td>Agriculture, steel plants</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔢 Solved Examples</h3>
+    <div class="callout orange">
+      <strong>Example 1 — Mobile Company</strong>
+      P₁=₹4500, Q₁=10,000 | P₂=₹4000, Q₂=12,000<br>
+      ΔQ=2000, ΔP=−500<br>
+      <strong>Ed = (2000/10000) ÷ (500/4500) = 0.2 ÷ 0.111 = 1.8</strong> → Elastic demand
+    </div>
+    <div class="callout">
+      <strong>Example 2 — Demand Function D = 10 − 2P, find Ed at P=4</strong>
+      dQ/dP = −2, At P=4: Q = 10−8 = 2<br>
+      <strong>Ed = |−2| × (4/2) = 4</strong> → Highly elastic
+    </div>
+    <div class="callout green">
+      <strong>Example 3 — P = 500 − 0.1Q, sell Q=4500</strong>
+      P = 500 − 0.1(4500) = ₹50<br>
+      dQ/dP = −10<br>
+      <strong>Ed = 10 × (50/4500) ≈ 0.11</strong> → Inelastic demand
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 7 -->
+<section class="section fade-in" id="equilibrium">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <span class="icon">⚖️</span>
+    <h2>Market Equilibrium</h2>
+  </div>
+
+  <div class="callout green">
+    <strong>Equilibrium</strong> = market situation where <em>Quantity Demanded = Quantity Supplied</em>. No excess demand or surplus. Market is in balance.
+  </div>
+  <div class="formula">Equilibrium → Qd = Qs → No shortage, No surplus</div>
+
+  <div class="cards">
+    <div class="card a4"><h3>⬆️ Price Above Equilibrium</h3><p>Supply &gt; Demand → <strong>Surplus</strong><br>Sellers reduce price → moves toward equilibrium</p></div>
+    <div class="card a3"><h3>⬇️ Price Below Equilibrium</h3><p>Demand &gt; Supply → <strong>Shortage</strong><br>Sellers raise price → moves toward equilibrium</p></div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔄 Effects of Demand/Supply Changes on Equilibrium</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Change</th><th>Price Effect</th><th>Quantity Effect</th></tr>
+        <tr><td>Demand increases (right shift)</td><td>↑ Rises</td><td>↑ Rises</td></tr>
+        <tr><td>Demand decreases (left shift)</td><td>↓ Falls</td><td>↓ Falls</td></tr>
+        <tr><td>Supply increases (right shift)</td><td>↓ Falls</td><td>↑ Rises</td></tr>
+        <tr><td>Supply decreases (left shift)</td><td>↑ Rises</td><td>↓ Falls</td></tr>
+        <tr><td>Both D &amp; S increase equally</td><td>No change</td><td>↑ Rises</td></tr>
+        <tr><td>Both D &amp; S decrease equally</td><td>No change</td><td>↓ Falls</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout orange">
+    <strong>Solved Example</strong>
+    D = 50−2P | S = 20+3P<br>
+    Equilibrium: 50−2P = 20+3P → 5P = 30 → <strong>P* = ₹6</strong><br>
+    Q* = 50−12 = <strong>38 units</strong><br>
+    Excess demand at P=3: D=44, S=29 → Excess Demand = <strong>15 units</strong>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 8 -->
+<section class="section fade-in" id="production">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <span class="icon">⚙️</span>
+    <h2>Production Function &amp; Law of Variable Proportion</h2>
+  </div>
+
+  <div class="callout">
+    <strong>Production Function</strong> shows technical relationship between inputs and output.<br>
+    <strong>Q = f(La, L, K, O)</strong>
+  </div>
+
+  <div class="cards">
+    <div class="card a1"><h3>Short Run (Variable Proportion)</h3><p>Capital/land = FIXED. Labour = VARIABLE. Output changed by varying labour only.</p></div>
+    <div class="card a2"><h3>Long Run (Fixed Proportion)</h3><p>ALL factors variable. All inputs increased in same proportion. Factor ratio stays constant.</p></div>
+  </div>
+
+  <div class="card-full">
+    <h3>📊 TP, AP, MP</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Concept</th><th>Formula</th><th>Example</th></tr>
+        <tr><td>Total Product (TP)</td><td>Sum of all output</td><td>5 workers produce 100 units → TP=100</td></tr>
+        <tr><td>Average Product (AP)</td><td>AP = TP / L</td><td>100/5 = 20 units per worker</td></tr>
+        <tr><td>Marginal Product (MP)</td><td>MP = ΔTP / ΔL</td><td>4 workers→80, 5 workers→100 → MP=(100−80)/1=20</td></tr>
+      </table>
+    </div>
+    <div class="callout green"><strong>AP-MP Relationship:</strong> MP&gt;AP → AP rises | MP&lt;AP → AP falls | MP=AP → AP is MAXIMUM</div>
+  </div>
+
+  <div class="card-full">
+    <h3>📉 Law of Variable Proportion — 3 Stages</h3>
+    <div class="callout orange"><strong>Statement:</strong> When variable factor units are increased with fixed factor, TP first rises at increasing rate, then at diminishing rate, then decreases.</div>
+    <div class="stages">
+      <div class="stage s1">
+        <h4>Stage I — IRF (Increasing Returns)</h4>
+        <p>✅ RATIONAL STAGE<br>MP rises, reaches max at <em>point of inflexion</em><br>AP rises, TP rises fast<br>Fixed factors underutilised<br>Division of labour benefits</p>
+      </div>
+      <div class="stage s2">
+        <h4>Stage II — DRF (Diminishing Returns)</h4>
+        <p>✅ RATIONAL STAGE<br>MP falls but stays positive<br>AP falls, TP rises slowly<br>MP=AP at start of Stage II<br>Ends when MP=0, TP=Maximum</p>
+      </div>
+      <div class="stage s3">
+        <h4>Stage III — NRF (Negative Returns)</h4>
+        <p>❌ IRRATIONAL STAGE<br>MP becomes negative<br>TP declines<br>Too many workers, overcrowding<br>No firm operates here</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Assumptions:</strong> One variable factor (labour) | Technology constant | Homogeneous units | Short run</div>
+  </div>
+</section>
+
+<!-- ============================================================ SECTION 9 -->
+<section class="section fade-in" id="economies">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <span class="icon">📈</span>
+    <h2>Economies of Scale</h2>
+  </div>
+
+  <div class="callout green">
+    <strong>Economies of Scale</strong> = Cost advantages when scale of production increases. <em>More production → Lower cost per unit.</em>
+  </div>
+
+  <div class="cards">
+    <div class="card a1">
+      <h3>🏢 Internal Economies</h3>
+      <p>Arise <em>within</em> the firm when it expands. Benefits from its own growth.</p>
+      <ul>
+        <li>Labour Economies</li>
+        <li>Technical Economies</li>
+        <li>Managerial Economies</li>
+        <li>Financial Economies</li>
+        <li>Marketing Economies</li>
+        <li>Risk-Bearing Economies</li>
+      </ul>
+    </div>
+    <div class="card a3">
+      <h3>🌐 External Economies</h3>
+      <p>Arise due to growth of the <em>entire industry</em>, not the firm alone.</p>
+      <ul>
+        <li>Economies of Localisation</li>
+        <li>Economies of Information</li>
+        <li>Economies of Vertical Disintegration</li>
+        <li>Economies of By-product</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔍 Internal Economies — Detailed</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Type</th><th>How it Reduces Cost</th><th>Example</th></tr>
+        <tr><td>Labour</td><td>Specialisation, division of labour, less idle time</td><td>One worker cuts, another assembles, another packs</td></tr>
+        <tr><td>Technical</td><td>Advanced machines, better utilisation, less waste</td><td>Auto machines reduce cost per unit in factory</td></tr>
+        <tr><td>Managerial</td><td>Expert managers per department, better control</td><td>Large firm has finance, production, marketing managers</td></tr>
+        <tr><td>Financial</td><td>Easy loans at lower interest, credit purchases</td><td>Big firms get bank loans at cheaper rates</td></tr>
+        <tr><td>Marketing</td><td>Bulk buying/selling, large-scale advertising</td><td>Ad cost per unit is lower for big firms</td></tr>
+        <tr><td>Risk-Bearing</td><td>Risks spread across many products</td><td>Loss in one product offset by profit in another</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🌐 External Economies — Detailed</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Type</th><th>How it Works</th><th>Example</th></tr>
+        <tr><td>Localisation</td><td>Many firms of same industry in one area → shared skilled labour, suppliers, transport</td><td>Textile in Tiruppur, IT in Bengaluru</td></tr>
+        <tr><td>Information</td><td>Easy access to market trends, technology, policies</td><td>Industrial clusters share knowledge on new machinery</td></tr>
+        <tr><td>Vertical Disintegration</td><td>Different stages by specialised firms → lower cost, higher quality</td><td>Automobile: different firms for tyres, batteries, engines</td></tr>
+        <tr><td>By-product</td><td>Waste/by-products used profitably</td><td>Molasses from sugar industry used in alcohol production</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="mnemonic"><span>Internal:</span> <strong>L</strong>abour • <strong>T</strong>echnical • <strong>M</strong>anagerial • <strong>F</strong>inancial • <strong>M</strong>arketing • <strong>R</strong>isk = <em>"LTMFMR"</em></div>
+</section>
+
+<!-- ============================================================ SECTION 10 -->
+<section class="section fade-in" id="cobb">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <span class="icon">🧮</span>
+    <h2>Cobb-Douglas Production Function</h2>
+  </div>
+
+  <div class="callout orange">
+    <strong>Definition</strong>
+    A mathematical model showing the relationship between output and inputs (Labour &amp; Capital).
+  </div>
+  <div class="formula">Q = A · L<sup>α</sup> · K<sup>β</sup></div>
+
+  <div class="card-full">
+    <h3>🔑 Variables Explained</h3>
+    <div class="table-wrap" style="margin:0">
+      <table>
+        <tr><th>Symbol</th><th>Meaning</th><th>Range</th></tr>
+        <tr><td>Q</td><td>Total Output</td><td>—</td></tr>
+        <tr><td>L</td><td>Labour Input</td><td>—</td></tr>
+        <tr><td>K</td><td>Capital Input</td><td>—</td></tr>
+        <tr><td>A</td><td>Technology/Efficiency Parameter</td><td>—</td></tr>
+        <tr><td>α (alpha)</td><td>Output elasticity of Labour — % change in Q when L↑1% (K fixed)</td><td>0 to 1</td></tr>
+        <tr><td>β (beta)</td><td>Output elasticity of Capital — % change in Q when K↑1% (L fixed)</td><td>0 to 1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>📐 Returns to Scale (α + β)</h3>
+    <div class="stages">
+      <div class="stage s1"><h4>α + β = 1</h4><p>Constant Returns to Scale — Output ↑ by same % as inputs</p></div>
+      <div class="stage s2"><h4>α + β > 1</h4><p>Increasing Returns to Scale — Output ↑ by MORE % than inputs</p></div>
+      <div class="stage s3"><h4>α + β &lt; 1</h4><p>Decreasing Returns to Scale — Output ↑ by LESS % than inputs</p></div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔑 Key Features</h3>
+    <div class="cards" style="margin:0">
+      <div class="card a1"><h3>1. Diminishing Returns</h3><p>Increasing one input (other constant) → marginal product eventually declines.</p></div>
+      <div class="card a2"><h3>2. Constant Elasticity of Substitution</h3><p>Labour &amp; capital can substitute each other at a constant rate.</p></div>
+      <div class="card a3"><h3>3. Positive Marginal Products</h3><p>Both L and K have positive but diminishing marginal productivity.</p></div>
+      <div class="card a4"><h3>4. Income Share</h3><p>α = Labour's share of income<br>β = Capital's share of income</p></div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <h3>🔢 Solved Examples</h3>
+    <div class="callout">
+      <strong>Derive MP of Labour:</strong> Q = AL<sup>α</sup>K<sup>β</sup><br>
+      MPL = ∂Q/∂L = αAL<sup>α−1</sup>K<sup>β</sup> = α(Q/L)
+    </div>
+    <div class="callout orange">
+      <strong>Q = 2K<sup>½</sup>L<sup>½</sup>, K=16, L=36</strong><br>
+      a) Q = 2×4×6 = <strong>48 units</strong><br>
+      b) MPL = ∂Q/∂L = 2K<sup>½</sup> × ½L<sup>−½</sup> = K<sup>½</sup>/L<sup>½</sup> = 4/6 = <strong>0.667</strong><br>
+      c) APK = Q/K = 48/16 = <strong>3</strong><br>
+      d) Q=40, L=25: 40 = 2K<sup>½</sup>×5 → K<sup>½</sup>=4 → <strong>K=16</strong>
+    </div>
+    <div class="callout green">
+      <strong>Q = 3L<sup>½</sup>K<sup>½</sup>, Labour increases by 10% — find % change in output</strong><br>
+      α = ½ → % change in Q = α × % change in L = 0.5 × 10% = <strong>5% increase</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ QUICK REVISION -->
+<section class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">★</span>
+    <span class="icon">⚡</span>
+    <h2>Quick Revision Cheat Sheet</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Topic</th><th>Key Formula / Rule</th><th>Quick Memory</th></tr>
+      <tr><td>PPC Shift Right</td><td>New resources / Better tech</td><td>Growth → Right</td></tr>
+      <tr><td>DMU — Saturation</td><td>MU = 0 → TU maximum</td><td>Zero MU = peak TU</td></tr>
+      <tr><td>Demand — Exceptions</td><td>Giffen, Veblen, Speculation, Necessity, Shortage</td><td>G-V-S-N-F</td></tr>
+      <tr><td>Price Elasticity</td><td>Ed = (ΔQ×P)/(ΔP×Q)</td><td>&gt;1 Luxury | &lt;1 Necessity</td></tr>
+      <tr><td>Equilibrium</td><td>Qd = Qs</td><td>Balance point</td></tr>
+      <tr><td>Law of Variable Proportion</td><td>IRF → DRF → NRF</td><td>Stage I&amp;II rational, III irrational</td></tr>
+      <tr><td>MP=AP</td><td>AP is at maximum</td><td>Equal → max AP</td></tr>
+      <tr><td>Cobb-Douglas</td><td>Q = AL<sup>α</sup>K<sup>β</sup></td><td>α+β=CRS, &gt;IRS, &lt;DRS</td></tr>
+      <tr><td>Internal Economies</td><td>LTMFMR</td><td>Labour,Tech,Mgmt,Finance,Mktg,Risk</td></tr>
+      <tr><td>External Economies</td><td>LIVB</td><td>Localisation,Info,Vertical,By-product</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ QUIZ -->
+<section class="section fade-in" id="quiz">
+  <div class="section-header">
+    <span class="section-num">Q</span>
+    <span class="icon">🎯</span>
+    <h2>Practice Quiz</h2>
+  </div>
+  <div class="quiz-box">
+    <h3>Test Yourself — Click the correct answer!</h3>
+    <div id="quizContainer"></div>
+    <div id="quizScore" style="margin-top:16px;font-size:0.95rem;color:var(--accent3);font-weight:600;display:none;"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// QUIZ DATA
+const quizData = [
+  {q:"When price of a good falls, what happens according to Law of Demand?",opts:["Demand falls","Demand rises","Demand unchanged","Supply rises"],ans:1},
+  {q:"At which point does Total Utility reach its maximum?",opts:["When MU = 1","When MU = 0","When MU is negative","When TU = AP"],ans:1},
+  {q:"A point below the PPC indicates:",opts:["Efficient production","Unattainable output","Underutilisation of resources","Technological advancement"],ans:2},
+  {q:"If α + β > 1 in Cobb-Douglas, it shows:",opts:["Constant returns","Decreasing returns","Increasing returns","Zero returns"],ans:2},
+  {q:"'Ceteris paribus' means:",opts:["Everything changes","Other things remaining constant","Maximum utility","Minimum cost"],ans:1},
+  {q:"In Law of Variable Proportion, Stage III is called:",opts:["IRF","DRF","NRF","CRF"],ans:2},
+  {q:"Giffen goods are exceptions to Law of Demand because:",opts:["They are luxury goods","They are inferior with no substitutes","They are complementary","They are digital goods"],ans:1},
+  {q:"Price Elasticity of Demand for a perfectly inelastic good is:",opts:["Infinity","Zero","One","Negative"],ans:1},
+  {q:"If supply increases (rightward shift), the equilibrium price will:",opts:["Rise","Fall","Stay same","Double"],ans:1},
+  {q:"Economies of Localisation is a type of:",opts:["Internal Economy","External Economy","Diseconomy","Labour Economy"],ans:1},
+  {q:"The slope of PPC measures:",opts:["Profit","Opportunity Cost","Elasticity","Marginal Utility"],ans:1},
+  {q:"In Cobb-Douglas Q=AL^αK^β, what does 'α' represent?",opts:["Capital share","Technology factor","Output elasticity of Labour","Output elasticity of Capital"],ans:2},
+];
+
+let score=0,answered=0;
+const qc=document.getElementById('quizContainer');
+quizData.forEach((item,i)=>{
+  const div=document.createElement('div');
+  div.className='q-item';
+  div.innerHTML=`<p>${i+1}. ${item.q}</p><div class="q-options">${item.opts.map((o,j)=>`<button class="q-opt" data-q="${i}" data-a="${j}">${o}</button>`).join('')}</div><div class="q-result" id="qr${i}"></div>`;
+  qc.appendChild(div);
+});
+document.querySelectorAll('.q-opt').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const q=parseInt(this.dataset.q),a=parseInt(this.dataset.a);
+    const parent=document.querySelectorAll('.q-item')[q];
+    if(parent.dataset.done) return;
+    parent.dataset.done=1;
+    answered++;
+    const correctA=quizData[q].ans;
+    parent.querySelectorAll('.q-opt').forEach(b=>{
+      if(parseInt(b.dataset.a)===correctA) b.classList.add('correct');
+    });
+    if(a===correctA){score++;this.classList.add('correct');document.getElementById(`qr${q}`).textContent='✅ Correct!';}
+    else{this.classList.add('wrong');document.getElementById(`qr${q}`).textContent='❌ Wrong! Correct: '+quizData[q].opts[correctA];}
+    document.getElementById(`qr${q}`).style.display='block';
+    if(answered===quizData.length){
+      const sc=document.getElementById('quizScore');
+      sc.textContent=`🎉 You scored ${score}/${quizData.length}! ${score>=10?'Excellent!':score>=7?'Good job!':'Keep revising!'}`;
+      sc.style.display='block';
+    }
+  });
+});
+
+// PROGRESS TRACKING
+const sections=document.querySelectorAll('.section');
+const fill=document.getElementById('progressFill');
+const label=document.getElementById('progressLabel');
+function updateProgress(){
+  let visible=0;
+  sections.forEach(s=>{const r=s.getBoundingClientRect();if(r.top<window.innerHeight*0.8)visible++;});
+  const pct=Math.round((visible/sections.length)*100);
+  fill.style.width=pct+'%';
+  label.textContent=pct===100?'🎉 All topics covered!':'📖 '+pct+'% covered ('+visible+'/'+sections.length+' topics)';
+}
+window.addEventListener('scroll',updateProgress);
+
+// FADE IN OBSERVER
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+updateProgress();
+</script>
+</body>
+</html>
